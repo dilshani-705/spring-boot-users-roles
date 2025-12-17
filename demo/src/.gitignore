@@ -1,0 +1,4 @@
+# Application secrets
+application.properties
+application.yml
+.env
