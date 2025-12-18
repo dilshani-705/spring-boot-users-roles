@@ -76,4 +76,31 @@ public class UserServiceImpl implements UserService {
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
+    @Override
+    public UserDTO update(Long id, UserDTO dto) {
+        UserEntity user = userRepository.findById(id).orElseThrow();
+
+        if (dto.getFirstName()!=null) user.setFirstName(dto.getFirstName());
+        if (dto.getLastName()!=null) user.setLastName(dto.getLastName());
+        if (dto.getEmail()!=null) user.setEmail(dto.getEmail());
+        if (dto.getPassword()!=null) user.setPassword(dto.getPassword());
+
+        if (dto.getRoleId()!=null) {
+            RoleEntity role = roleRepository.findById(dto.getRoleId()).orElseThrow();
+            user.setRole(role);
+        }
+
+        user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+
+        userRepository.save(user);
+
+        UserDTO out = new UserDTO();
+        out.setId(user.getId());
+        out.setFirstName(user.getFirstName());
+        out.setLastName(user.getLastName());
+        out.setEmail(user.getEmail());
+        out.setRoleId(user.getRole().getId());
+        return out;
+    }
+
 }

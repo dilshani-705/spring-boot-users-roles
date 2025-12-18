@@ -41,4 +41,9 @@ public class UserController {
     public void delete(@PathVariable Long id) {
         userService.delete(id);
     }
+
+    @PutMapping("/{id}")
+    public UserDTO update(@PathVariable Long id, @RequestBody UserDTO dto) {
+        return userService.update(id, dto);
+    }
 }
